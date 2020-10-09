@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { CardStyleInterpolators, createStackNavigator, HeaderStyleInterpolators, StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
-import Home from '../pages/Home'
+
+
 import Detail from '../pages/Detail'
+import BottomTabs from './BottomTabs'
 
 
 export type RootStackParamList = {
-    Home: undefined,
-    Detail: undefined
+    BottomTabs: undefined,
+    Detail: {id : number}
 };
 
 export type RootStackNavigation = StackNavigationProp<RootStackParamList>;
@@ -39,7 +41,7 @@ export default class Navigator extends Component {
                         })
                     }
                 }}>
-                    <Stack.Screen options={{headerTitle: '首页'}} name="Home" component={Home}></Stack.Screen>
+                    <Stack.Screen options={{headerTitle: '首页'}} name="BottomTabs" component={BottomTabs}></Stack.Screen>
                     <Stack.Screen name="Detail" component={Detail}></Stack.Screen>
                 </Stack.Navigator>
             </NavigationContainer>
