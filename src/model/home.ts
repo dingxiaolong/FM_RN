@@ -20,6 +20,14 @@ interface HomeModel extends Model {
 
 const initialStates = { num: 0 };
 
+function delay(timeout: number) {
+    return new Promise(
+        resolve => {
+            setTimeout(resolve, timeout);
+        }
+    )
+}
+
 const homeModel: HomeModel = {
     namespace: 'home',
     state: initialStates,
@@ -29,6 +37,17 @@ const homeModel: HomeModel = {
                 ...state,
                 num: state.num + payload.num
             }
+        }
+    },
+    effects: {
+        *asyncAdd({payload},{call,put}) {
+            yield call(delay,1000);
+            yield put(
+                {
+                    type: 'add',
+                    payload
+                }
+            )
         }
     }
 } 

@@ -5,8 +5,8 @@ import { RootStackNavigation } from '../navigator/index'
 import { RootStates } from '../model'
 
 
-const mapStateToProps = ({ home }: RootStates) => {
-  return {num: home.num}
+const mapStateToProps = ({ home ,loading}: RootStates) => {
+  return { num: home.num,loading: loading.effects['home/asyncAdd'] }
 }
 
 
@@ -17,23 +17,46 @@ interface Iprops extends ModelState {
 };
 
 class Home extends Component<Iprops> {
-  
+
   onpress = () => {
     const { navigation } = this.props;
     navigation.push("Detail", { id: 100 });
   }
   handelAdd = () => {
-    Alert.alert('我被点击了');
+    const { dispatch } = this.props;
+    dispatch(
+      {
+        type: 'home/add',
+        payload: {
+          num: 3
+        }
+      }
+    )
+    // Alert.alert('我被点击了');
+  }
+
+  handelAddAsync = () => {
+    const { dispatch } = this.props;
+    dispatch(
+      {
+        type: 'home/asyncAdd',
+        payload: {
+          num: 10
+        }
+      }
+    )
   }
 
   render() {
-    const {num} = this.props;
-    console.log(num);
-    
+    const { num ,loading} = this.props;
+
     return (
       <View style={{ backgroundColor: 'red' }}>
         <Text> 首页{num} </Text>
+        <Text> {loading ? '正在努力计算中' : ''} </Text>
         <Button title='加' onPress={this.handelAdd}></Button>
+        <Button title='异步加' onPress={this.handelAddAsync}></Button>
+
         <Button title='跳转到详情页' onPress={this.onpress}></Button>
       </View>
     )
