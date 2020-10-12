@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StatusBar, StyleSheet, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { CardStyleInterpolators, createStackNavigator, HeaderStyleInterpolators, StackNavigationProp, StackScreenProps } from '@react-navigation/stack'
 
@@ -26,13 +26,16 @@ export default class Navigator extends Component {
             <NavigationContainer>
                 <Stack.Navigator
                 headerMode="float"
+                
                  screenOptions={{
                     headerTitleAlign: 'center',
                     headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                     gestureEnabled: true,
+                    headerStatusBarHeight: StatusBar.currentHeight,
                     gestureDirection: 'horizontal',
                     headerStyle : {
+                        backgroundColor: 'red',
                         ...Platform.select({
                             android: {
                                 elevation: 0,

@@ -1,8 +1,8 @@
 import { connect, ConnectedProps } from 'react-redux'
 import React, { Component } from 'react'
 import { Alert, Button, Text, View } from 'react-native'
-import { RootStackNavigation } from '../navigator/index'
-import { RootStates } from '../model'
+import { RootStackNavigation } from '../../navigator/index'
+import { RootStates } from '../../model'
 
 
 const mapStateToProps = ({ home ,loading}: RootStates) => {
