@@ -32,10 +32,10 @@ export default class Navigator extends Component {
                     headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                     gestureEnabled: true,
-                    headerStatusBarHeight: StatusBar.currentHeight,
+                    // headerStatusBarHeight: StatusBar.currentHeight,
                     gestureDirection: 'horizontal',
                     headerStyle : {
-                        backgroundColor: 'red',
+                        // backgroundColor: 'red',
                         ...Platform.select({
                             android: {
                                 elevation: 0,

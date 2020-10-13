@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Alert, Button, Text, View } from 'react-native'
 import { RootStackNavigation } from '../../navigator/index'
 import { RootStates } from '../../model'
+import Carsousel from './Carsousel'
 
 
 const mapStateToProps = ({ home ,loading}: RootStates) => {
@@ -58,6 +59,7 @@ class Home extends Component<Iprops> {
         <Button title='异步加' onPress={this.handelAddAsync}></Button>
 
         <Button title='跳转到详情页' onPress={this.onpress}></Button>
+        <Carsousel/>
       </View>
     )
   }
