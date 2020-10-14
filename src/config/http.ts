@@ -8,7 +8,7 @@ axios.defaults.baseURL = Config.API_URL;
 
 axios.interceptors.request.use(
     function(config) {
-        console.log(config);
+        // console.log(config);
         return config;
     },
     function(error) {
@@ -18,7 +18,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     function(response) {
-        console.log(response);
+        // console.log(response);
         return response.data;
     },
     function(error) {

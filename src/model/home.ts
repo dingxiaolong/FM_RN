@@ -4,7 +4,7 @@ import { Reducer } from 'react';
 import axios from 'axios'
 
 
-interface ICarousel {
+export interface ICarousel {
     id: string,
     image: string,
     colors: [string, string]
@@ -56,7 +56,9 @@ const homeModel: HomeModel = {
             yield put(
                 {
                     type: 'setStatus',
-                    carousels: data
+                    payload: {
+                        carousels: data
+                    }//传递一个对象payload给同步方法赋值
                 }
             )
 

@@ -1,26 +1,31 @@
 import React, { Component } from 'react'
 import { Text, View, Image, StyleSheet } from 'react-native'
 import SnapCarousel, { AdditionalParallaxProps, Pagination, ParallaxImage } from 'react-native-snap-carousel'
+import { ICarousel } from '../../model/home';
 import { viewPortWidth, wp, hp } from '../../utils';
 
 
-const data = ['https://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg',
-  'http://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg',
-  'http://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg'];
+interface Iprops {
+  data: ICarousel[]
+}
+
+// const data = ['https://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg',
+//   'http://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg',
+//   'http://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg'];
 
 const sliderWidth = viewPortWidth;
 const itemWidth = wp(92);
 const sliderHeight = hp(26);
 
-export default class Carsousel extends Component {
+export default class Carsousel extends Component<Iprops> {
 
 
   state = {activeSlider: 0}
 
-  renderItem = ({ item }: { item: string }, parallaxProps?: AdditionalParallaxProps) => {
+  renderItem = ({ item }: { item: ICarousel }, parallaxProps?: AdditionalParallaxProps) => {
     return (
       <ParallaxImage
-        source={{uri: item}}
+        source={{uri: item.image}}
         style={styles.image}
         containerStyle={styles.imageContainer}
         parallaxFactor={0.8}
@@ -34,6 +39,7 @@ export default class Carsousel extends Component {
 
 
   pagination = () => {
+    const {data} = this.props;
     return (
       <View style={styles.paginationWrap}>
         <Pagination
@@ -56,6 +62,7 @@ export default class Carsousel extends Component {
 
 
   render() {
+    const {data} = this.props;
     return (
       <View>
         <SnapCarousel 

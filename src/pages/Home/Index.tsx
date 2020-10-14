@@ -60,7 +60,7 @@ class Home extends Component<Iprops> {
 
   render() {
     const { carousels ,loading} = this.props;
-
+    console.log(carousels);
     return (
       <View>
         {/* <Text> 首页{num} </Text> */}
@@ -70,7 +70,7 @@ class Home extends Component<Iprops> {
         <Button title='异步加' onPress={this.handelAddAsync}></Button> */}
 
         <Button title='跳转到详情页' onPress={this.onpress}></Button>
-        <Carsousel/>
+        <Carsousel data={carousels}/>
       </View>
     )
   }
