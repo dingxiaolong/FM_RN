@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, Image, StyleSheet } from 'react-native'
-import SnapCarousel, { AdditionalParallaxProps, ParallaxImage } from 'react-native-snap-carousel'
+import SnapCarousel, { AdditionalParallaxProps, Pagination, ParallaxImage } from 'react-native-snap-carousel'
 import { viewPortWidth, wp, hp } from '../../utils';
 
 
@@ -14,12 +14,18 @@ const sliderHeight = hp(26);
 
 export default class Carsousel extends Component {
 
+
+  state = {activeSlider: 0}
+
   renderItem = ({ item }: { item: string }, parallaxProps?: AdditionalParallaxProps) => {
     return (
       <ParallaxImage
         source={{uri: item}}
         style={styles.image}
         containerStyle={styles.imageContainer}
+        parallaxFactor={0.8}
+        showSpinner
+        spinnerColor='rgba(0,0,0,0.25)'
         {...parallaxProps}
       />
       // <Image source={{ uri: item }} style={styles.image} />
@@ -27,10 +33,36 @@ export default class Carsousel extends Component {
   }
 
 
+  pagination = () => {
+    return (
+      <View style={styles.paginationWrap}>
+        <Pagination
+        containerStyle={styles.paginationContainer}
+        dotContainerStyle={styles.dotContainer}
+        dotStyle={styles.dot}
+        dotsLength={data.length} 
+        inactiveDotScale={0.7}
+        inactiveDotOpacity={0.4}
+        activeDotIndex = {this.state.activeSlider}/>
+      </View>
+    )
+  }
+
+  onSnapToItem = (index: number) => {
+    this.setState(
+      {activeSlider: index}
+    )
+  }
+
+
   render() {
     return (
       <View>
-        <SnapCarousel data={data} renderItem={this.renderItem} sliderWidth={sliderWidth} itemWidth={itemWidth} hasParallaxImages/>
+        <SnapCarousel data={data} renderItem={this.renderItem} sliderWidth={sliderWidth} itemWidth={itemWidth} hasParallaxImages 
+        loop autoplay autoplayDelay={2}
+        onSnapToItem={this.onSnapToItem}
+        />
+        {this.pagination()}
       </View>
     )
   }
@@ -43,11 +75,40 @@ const styles = StyleSheet.create(
       // width: itemWidth,
       // height: sliderHeight
       ...StyleSheet.absoluteFillObject,
-      resizeMode: 'cover'
+      resizeMode: 'cover',
+      borderRadius: 5
     },
     imageContainer: {
       width: itemWidth,
-      height: sliderHeight
+      height: sliderHeight,
+      borderRadius: 5
+    },
+    paginationWrap: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'red',
+      
+    },
+
+    paginationContainer: {
+      backgroundColor: 'rgba(0,0,0,0.35)',
+      position: "absolute",
+      top: -22,
+      // height: 30
+      // left: viewPortWidth/2
+      paddingHorizontal: 4,
+      paddingVertical: 4,
+      borderRadius: 8,
+
+    },
+    dotContainer: {
+      marginHorizontal: 6
+    },
+    dot: {
+      width: 6,
+      height: 6,
+      borderRadius: 3,
+      backgroundColor: 'rgba(255,255,255,0.92)',
     }
   },
   

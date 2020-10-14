@@ -52,7 +52,7 @@ class Home extends Component<Iprops> {
     const { num ,loading} = this.props;
 
     return (
-      <View style={{ backgroundColor: 'red' }}>
+      <View>
         <Text> 首页{num} </Text>
         <Text> {loading ? '正在努力计算中' : ''} </Text>
         <Button title='加' onPress={this.handelAdd}></Button>
