@@ -34,8 +34,8 @@ export default class HomeTabs extends Component {
             }}
           >
               <TabConatainer.Screen name='Home' component={Home} options={{title: '推荐'}}/>
-              <TabConatainer.Screen name='Home1' component={Home}/>
-              <TabConatainer.Screen name='Home3' component={Home}/>
+              {/* <TabConatainer.Screen name='Home1' component={Home}/>
+              <TabConatainer.Screen name='Home3' component={Home}/> */}
           </TabConatainer.Navigator>
     )
   }

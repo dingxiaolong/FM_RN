@@ -9,9 +9,26 @@ export interface ICarousel {
     image: string,
     colors: [string, string]
 }
+export interface IGuess {
+    id: string,
+    image: string,
+    title: string,
+    remark: string,
+    palyed: number,
+    playing: number
+}
+
+export interface IChannel {
+    id: string,
+    image: string,
+    title: string
+}
+
 
 export interface HomeStates {
-    carousels: ICarousel[]
+    carousels: ICarousel[],
+    guesses: IGuess[],
+    channels: IChannel[],
 }
 
 interface HomeModel extends Model {
@@ -21,13 +38,18 @@ interface HomeModel extends Model {
         setStatus: Reducer<HomeStates>
     };
     effects?: {
-        fetchCarousels: Effect
+        fetchCarousels: Effect,
+        fetchGuess: Effect,
+        fetchChannel: Effect,
     };
 }
 
 
-const CAROUSEL_URL = '/mock/11/bear/carousel'
-const initialStates = { carousels: [] };
+const CAROUSEL_URL = '/mock/11/bear/carousel';
+const GUESS_URL = '/mock/11/bear/guess';
+const CHANNEL_URL = '/mock/11/bear/channel';
+
+const initialStates = { carousels: [], guesses: [], channels: [] };
 
 // function delay(timeout: number) {
 //     return new Promise(
@@ -49,10 +71,10 @@ const homeModel: HomeModel = {
         }
     },
     effects: {
-        *fetchCarousels({payload},{call,put}) {
+        *fetchCarousels({ payload }, { call, put }) {
             // yield call(delay,1000);
-            const {data} = yield call(axios.get, CAROUSEL_URL)
-            console.log(data);
+            const { data } = yield call(axios.get, CAROUSEL_URL)
+            // console.log(data);
             yield put(
                 {
                     type: 'setStatus',
@@ -68,8 +90,34 @@ const homeModel: HomeModel = {
             //         payload
             //     }
             // )
+        },
+        *fetchGuess({ payload }, { call, put }) {
+            // yield call(delay,1000);
+            const { data } = yield call(axios.get, GUESS_URL)
+            // console.log(data);
+            yield put(
+                {
+                    type: 'setStatus',
+                    payload: {
+                        guesses: data
+                    }//传递一个对象payload给同步方法赋值
+                }
+            )
+        },
+        *fetchChannel({ payload }, { call, put }) {
+            // yield call(delay,1000);
+            const { data } = yield call(axios.get, CHANNEL_URL)
+            console.log('获取频道列表数据', data);
+            yield put(
+                {
+                    type: 'setStatus',
+                    payload: {
+                        channels: data
+                    }//传递一个对象payload给同步方法赋值
+                }
+            )
         }
     }
-} 
+}
 
 export default homeModel;

@@ -1,13 +1,15 @@
 import { connect, ConnectedProps } from 'react-redux'
 import React, { Component } from 'react'
-import { Alert, Button, Text, View } from 'react-native'
+import { Alert, Button, FlatList, ScrollView, Text, View } from 'react-native'
 import { RootStackNavigation } from '../../navigator/index'
 import { RootStates } from '../../model'
 import Carsousel from './Carsousel'
 import Config from 'react-native-config'
+import Guess from './Guess'
+import { IChannel } from '../../model/home'
 
 const mapStateToProps = ({ home ,loading}: RootStates) => {
-  return { carousels: home.carousels,loading: loading.effects['home/fetchCarousels'] }
+  return { carousels: home.carousels,channels: home.channels,loading: loading.effects['home/fetchCarousels'] }
 }
 
 
@@ -25,6 +27,11 @@ class Home extends Component<Iprops> {
     dispatch(
       {
         type: 'home/fetchCarousels',
+      }
+    )
+    dispatch(
+      {
+        type: 'home/fetchChannel',
       }
     )
   }
@@ -58,20 +65,28 @@ class Home extends Component<Iprops> {
     )
   }
 
-  render() {
-    const { carousels ,loading} = this.props;
-    console.log(carousels);
+  renItemChannels = ({item}: {item: IChannel}) => {
     return (
-      <View>
+        <View></View>
+    )
+  }
+
+  render() {
+    const { carousels ,channels,loading} = this.props;
+    // console.log(carousels);
+    return (
+      <ScrollView>
         {/* <Text> 首页{num} </Text> */}
-        <Text>{Config.API_URL}</Text>
-        <Text> {loading ? '正在努力计算中' : ''} </Text>
+        {/* <Text>{Config.API_URL}</Text>
+        <Text> {loading ? '正在努力计算中' : ''} </Text> */}
         {/* <Button title='加' onPress={this.handelAdd}></Button>
         <Button title='异步加' onPress={this.handelAddAsync}></Button> */}
 
-        <Button title='跳转到详情页' onPress={this.onpress}></Button>
+        {/* <Button title='跳转到详情页' onPress={this.onpress}></Button> */}
         <Carsousel data={carousels}/>
-      </View>
+        <Guess/>
+        <FlatList data={channels} renderItem={this.renItemChannels}/>
+      </ScrollView>
     )
   }
 }
