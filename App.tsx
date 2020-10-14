@@ -5,6 +5,7 @@ import 'react-native-gesture-handler';
 import BottomTabs from './src/navigator/BottomTabs';
 import { Provider } from 'react-redux';
 import store from './src/config/dva'
+import './src/config/http'
 
 export default class App extends Component {
   render() {

@@ -4,7 +4,7 @@ import SnapCarousel, { AdditionalParallaxProps, Pagination, ParallaxImage } from
 import { viewPortWidth, wp, hp } from '../../utils';
 
 
-const data = ['http://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg',
+const data = ['https://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg',
   'http://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg',
   'http://file06.16sucai.com/2016/0507/3061924b603fe039dfd2508c2d49b897.jpg'];
 
@@ -58,8 +58,15 @@ export default class Carsousel extends Component {
   render() {
     return (
       <View>
-        <SnapCarousel data={data} renderItem={this.renderItem} sliderWidth={sliderWidth} itemWidth={itemWidth} hasParallaxImages 
-        loop autoplay autoplayDelay={2}
+        <SnapCarousel 
+        data={data} 
+        renderItem={this.renderItem} 
+        sliderWidth={sliderWidth} 
+        itemWidth={itemWidth} 
+        hasParallaxImages 
+        loop 
+        // autoplay 
+        // autoplayDelay={2}
         onSnapToItem={this.onSnapToItem}
         />
         {this.pagination()}

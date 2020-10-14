@@ -1,53 +1,71 @@
 
 import { Effect, Model } from 'dva-core-ts'
 import { Reducer } from 'react';
+import axios from 'axios'
 
+
+interface ICarousel {
+    id: string,
+    image: string,
+    colors: [string, string]
+}
 
 export interface HomeStates {
-    num: number
+    carousels: ICarousel[]
 }
 
 interface HomeModel extends Model {
     namespace: string;
     state: HomeStates;
     reducers: {
-        add: Reducer<HomeStates>
+        setStatus: Reducer<HomeStates>
     };
     effects?: {
-        asyncAdd: Effect
+        fetchCarousels: Effect
     };
 }
 
-const initialStates = { num: 0 };
 
-function delay(timeout: number) {
-    return new Promise(
-        resolve => {
-            setTimeout(resolve, timeout);
-        }
-    )
-}
+const CAROUSEL_URL = '/mock/11/bear/carousel'
+const initialStates = { carousels: [] };
+
+// function delay(timeout: number) {
+//     return new Promise(
+//         resolve => {
+//             setTimeout(resolve, timeout);
+//         }
+//     )
+// }
 
 const homeModel: HomeModel = {
     namespace: 'home',
     state: initialStates,
     reducers: {
-        add(state = initialStates, { payload }) {
+        setStatus(state = initialStates, { payload }) {
             return {
                 ...state,
-                num: state.num + payload.num
+                ...payload
             }
         }
     },
     effects: {
-        *asyncAdd({payload},{call,put}) {
-            yield call(delay,1000);
+        *fetchCarousels({payload},{call,put}) {
+            // yield call(delay,1000);
+            const {data} = yield call(axios.get, CAROUSEL_URL)
+            console.log(data);
             yield put(
                 {
-                    type: 'add',
-                    payload
+                    type: 'setStatus',
+                    carousels: data
                 }
             )
+
+            // yield put(//put作用和首页的dispatch功能类似======
+            //     {
+            //         type: 'add',
+            //         payload
+            //     }
+            // )
         }
     }
 } 

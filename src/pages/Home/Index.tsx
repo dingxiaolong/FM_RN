@@ -4,10 +4,10 @@ import { Alert, Button, Text, View } from 'react-native'
 import { RootStackNavigation } from '../../navigator/index'
 import { RootStates } from '../../model'
 import Carsousel from './Carsousel'
-
+import Config from 'react-native-config'
 
 const mapStateToProps = ({ home ,loading}: RootStates) => {
-  return { num: home.num,loading: loading.effects['home/asyncAdd'] }
+  return { carousels: home.carousels,loading: loading.effects['home/fetchCarousels'] }
 }
 
 
@@ -18,6 +18,16 @@ interface Iprops extends ModelState {
 };
 
 class Home extends Component<Iprops> {
+
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(
+      {
+        type: 'home/fetchCarousels',
+      }
+    )
+  }
 
   onpress = () => {
     const { navigation } = this.props;
@@ -49,14 +59,15 @@ class Home extends Component<Iprops> {
   }
 
   render() {
-    const { num ,loading} = this.props;
+    const { carousels ,loading} = this.props;
 
     return (
       <View>
-        <Text> 首页{num} </Text>
+        {/* <Text> 首页{num} </Text> */}
+        <Text>{Config.API_URL}</Text>
         <Text> {loading ? '正在努力计算中' : ''} </Text>
-        <Button title='加' onPress={this.handelAdd}></Button>
-        <Button title='异步加' onPress={this.handelAddAsync}></Button>
+        {/* <Button title='加' onPress={this.handelAdd}></Button>
+        <Button title='异步加' onPress={this.handelAddAsync}></Button> */}
 
         <Button title='跳转到详情页' onPress={this.onpress}></Button>
         <Carsousel/>
