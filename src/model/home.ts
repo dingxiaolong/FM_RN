@@ -21,7 +21,10 @@ export interface IGuess {
 export interface IChannel {
     id: string,
     image: string,
-    title: string
+    title: string,
+    remark: string,
+    palyed: number,
+    playing: number
 }
 
 

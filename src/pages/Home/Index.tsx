@@ -7,9 +7,10 @@ import Carsousel from './Carsousel'
 import Config from 'react-native-config'
 import Guess from './Guess'
 import { IChannel } from '../../model/home'
+import ChannelItem from './ChannelItem'
 
-const mapStateToProps = ({ home ,loading}: RootStates) => {
-  return { carousels: home.carousels,channels: home.channels,loading: loading.effects['home/fetchCarousels'] }
+const mapStateToProps = ({ home, loading }: RootStates) => {
+  return { carousels: home.carousels, channels: home.channels, loading: loading.effects['home/fetchCarousels'] }
 }
 
 
@@ -40,6 +41,9 @@ class Home extends Component<Iprops> {
     const { navigation } = this.props;
     navigation.push("Detail", { id: 100 });
   }
+  onpressChanel = (data: IChannel) => {
+    Alert.alert(data.title);
+  }
   handelAdd = () => {
     const { dispatch } = this.props;
     dispatch(
@@ -65,28 +69,42 @@ class Home extends Component<Iprops> {
     )
   }
 
-  renItemChannels = ({item}: {item: IChannel}) => {
+  renItemChannels = ({ item }: { item: IChannel }) => {
+    // return (
+    //     <View>
+    //       <Text>我是列表</Text>
+    //     </View>
+    // )
+    return (<ChannelItem data={item} onpress={this.onpressChanel} />)
+  }
+
+  listHeaderComponent = () => {
+    const { carousels, channels, loading } = this.props;
     return (
-        <View></View>
+      <View>
+        <Carsousel data={carousels} />
+        <Guess />
+      </View>
     )
   }
 
   render() {
-    const { carousels ,channels,loading} = this.props;
+    const { carousels, channels, loading } = this.props;
     // console.log(carousels);
     return (
-      <ScrollView>
-        {/* <Text> 首页{num} </Text> */}
-        {/* <Text>{Config.API_URL}</Text>
-        <Text> {loading ? '正在努力计算中' : ''} </Text> */}
-        {/* <Button title='加' onPress={this.handelAdd}></Button>
-        <Button title='异步加' onPress={this.handelAddAsync}></Button> */}
+      <FlatList ListHeaderComponent={this.listHeaderComponent} data={channels} renderItem={this.renItemChannels} />
+      // <ScrollView>
+      //   {/* <Text> 首页{num} </Text> */}
+      //   {/* <Text>{Config.API_URL}</Text>
+      //   <Text> {loading ? '正在努力计算中' : ''} </Text> */}
+      //   {/* <Button title='加' onPress={this.handelAdd}></Button>
+      //   <Button title='异步加' onPress={this.handelAddAsync}></Button> */}
 
-        {/* <Button title='跳转到详情页' onPress={this.onpress}></Button> */}
-        <Carsousel data={carousels}/>
-        <Guess/>
-        <FlatList data={channels} renderItem={this.renItemChannels}/>
-      </ScrollView>
+      //   {/* <Button title='跳转到详情页' onPress={this.onpress}></Button> */}
+      //   <Carsousel data={carousels}/>
+      //   <Guess/>
+      //   <FlatList data={channels} renderItem={this.renItemChannels}/>
+      // </ScrollView>
     )
   }
 }
