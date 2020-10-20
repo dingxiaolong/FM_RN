@@ -33,8 +33,8 @@ interface IPros {
 const Tab = createBottomTabNavigator<BottomTabParamList>()
 
 
-function getHeadTitle(route: Route) {
-    const routename = route.state ? route.state.routes[route.state.index].name : '首页';
+function getHeadTitle(routename: string) {
+    // const routename = route.state ? route.state.routes[route.state.index].name : '首页';
     switch (routename) {
         case 'HomeTabs':
             return '首页';
@@ -58,12 +58,31 @@ function getHeadTitle(route: Route) {
 
 export default class BottomTabs extends Component<IPros> {
     componentDidUpdate() {
+        this.setNavBarHidden();
+    }
+
+    componentDidMount() {
+        this.setNavBarHidden();
+    }
+
+    setNavBarHidden = () => {
         const { navigation, route } = this.props;
-        navigation.setOptions(
-            {
-                headerTitle: getHeadTitle(route)
-            }
-        )
+        const routename = route.state ? route.state.routes[route.state.index].name : '首页';
+        if (routename === 'HomeTabs') {
+            navigation.setOptions(
+                {
+                    headerTitle: '',
+                    headerTransparent: true
+                }
+            )
+        }else {
+            navigation.setOptions(
+                {
+                    headerTitle: getHeadTitle(routename),
+                    headerTransparent: false
+                }
+            )
+        }
     }
 
     render() {

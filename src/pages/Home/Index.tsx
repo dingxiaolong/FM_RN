@@ -69,6 +69,16 @@ class Home extends Component<Iprops> {
     )
   }
 
+  onEndReached = () => {
+    console.log('下拉刷新');
+    const { dispatch } = this.props;
+    dispatch(
+      {
+        type: 'home/fetchChannel',
+      }
+    )
+  }
+
   renItemChannels = ({ item }: { item: IChannel }) => {
     // return (
     //     <View>
@@ -92,7 +102,13 @@ class Home extends Component<Iprops> {
     const { carousels, channels, loading } = this.props;
     // console.log(carousels);
     return (
-      <FlatList ListHeaderComponent={this.listHeaderComponent} data={channels} renderItem={this.renItemChannels} />
+      <FlatList 
+      ListHeaderComponent={this.listHeaderComponent} 
+      data={channels} 
+      renderItem={this.renItemChannels} 
+      onEndReached={this.onEndReached}
+      onEndReachedThreshold={0.2}
+      />
       // <ScrollView>
       //   {/* <Text> 首页{num} </Text> */}
       //   {/* <Text>{Config.API_URL}</Text>

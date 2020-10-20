@@ -78,11 +78,36 @@ const homeModel: HomeModel = {
             // yield call(delay,1000);
             const { data } = yield call(axios.get, CAROUSEL_URL)
             // console.log(data);
+            const benDiData = {
+                "status": 100,
+                "msg": "success",
+                "data": [{
+                    "id": "340000200611182443",
+                    "image": "http://39.105.213.120/images/28.jpg",
+                    "colors": ["#98f279", "#f279bc"]
+                }, {
+                    "id": "350000199604304859",
+                    "image": "http://39.105.213.120/images/22.jpg",
+                    "colors": ["#79dff2"]
+                }, {
+                    "id": "330000199810067213",
+                    "image": "http://39.105.213.120/images/22.jpg",
+                    "colors": ["#f2e179", "#be79f2", "#79f29b", "#f2797a"]
+                }, {
+                    "id": "210000198112139708",
+                    "image": "http://39.105.213.120/images/23.jpg",
+                    "colors": ["#799df2"]
+                }, {
+                    "id": "810000199802176705",
+                    "image": "http://39.105.213.120/images/44.jpg",
+                    "colors": ["#c1f279"]
+                }]
+            }
             yield put(
                 {
                     type: 'setStatus',
                     payload: {
-                        carousels: data
+                        carousels: benDiData.data
                     }//传递一个对象payload给同步方法赋值
                 }
             )
