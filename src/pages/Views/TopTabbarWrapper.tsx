@@ -1,23 +1,28 @@
 import { MaterialTopTabBar, MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import {getStatusBarHeight} from 'react-native-iphone-x-helper'
+import { getStatusBarHeight } from 'react-native-iphone-x-helper'
 import TouchAble from '../../compoment/TouchAble';
 
 export default class TopTabbarWrapper extends Component<MaterialTopTabBarProps> {
-  render() {
-      const height = getStatusBarHeight();
-      console.log(height);
-      const {props} = this;
-    return (
-        <View style={styles.container}>
-            <MaterialTopTabBar {...props} style={styles.tabbar} />
-            <TouchAble style={styles.categoryBtn}>
-                <Text>分类</Text>
-            </TouchAble>
-        </View>
-    )
-  }
+
+    onpress = () => {
+        const { navigation } = this.props;
+        navigation.navigate('Category');
+    }
+    render() {
+        const height = getStatusBarHeight();
+        console.log(height);
+        const { props } = this;
+        return (
+            <View style={styles.container}>
+                <MaterialTopTabBar {...props} style={styles.tabbar} />
+                <TouchAble style={styles.categoryBtn} onPress={this.onpress}>
+                    <Text>分类</Text>
+                </TouchAble>
+            </View>
+        )
+    }
 }
 const styles = StyleSheet.create(
     {
