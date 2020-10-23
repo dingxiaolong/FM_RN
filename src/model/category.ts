@@ -1,9 +1,11 @@
-import Axios from 'axios'
+import axios from 'axios'
 import {Effect, Model, ReducersMapObjectWithEnhancer, SubscriptionsMapObject} from 'dva-core-ts'
 import { ImageStore } from 'react-native'
-import {Reducer} from 'redux'
-import {load, storage} from '../config/storage'
-interface ICategory {
+// import {Reducer} from 'redux'
+import { Reducer } from 'react';
+import storage from '../config/storage'
+import {load} from '../config/storage'
+export interface ICategory {
     id: string,
     name: string,
     classify?: string,
@@ -12,7 +14,7 @@ interface ICategory {
 const CATEGORY_URL = '/mock/11/bear/carousel';
 
 
-interface CategoryModelState {
+export interface CategoryModelState {
     myCategorys: ICategory[];
     categorys: ICategory[];
 }
@@ -54,26 +56,27 @@ const categoryModel: CategoryModel = {
 	// syncParams?: any;
             const myCategorys = yield call(load,{key: 'myCategorys'})
             const categorys = yield call(load,{key: 'categorys'})
+            console.log('进入到方法了');
             if(myCategorys) {
                 yield put({
                     type: 'setState',
                     payload: {
-                        myCategorys: myCategorys,
-                        categorys: categorys
+                         myCategorys,
+                        categorys
                     }
                 })
             }else {
                 yield put({
                     type: 'setState',
                     payload: {
-                        categorys: categorys
+                        categorys
                     }
                 })
             }
         } 
     },
     reducers: {
-        setState(state,{payload,type}) {
+        setState(state = initState,{payload,type}) {
             return {
                 ...state,
                 ...payload
@@ -82,16 +85,20 @@ const categoryModel: CategoryModel = {
     },
     subscriptions: {
         setup({dispatch}) {
+            console.log('000000000');
             dispatch({type: 'loadData'})
         },
         asyncStore() {
+            
             storage.sync.categorys = async () => {
-                const data = await Axios.get(CATEGORY_URL);
+                const data = await axios.get(CATEGORY_URL);
+                console.log('同步获取到数据了');
                 return data;
             },
             storage.sync.myCategorys = async () => {
-                const data = await Axios.get(CATEGORY_URL);
-                return data;
+                // const data = await Axios.get(CATEGORY_URL);
+                console.log('我的收藏同步获取到数据了');
+                return null;
             }
         }
     }
