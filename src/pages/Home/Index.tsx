@@ -90,6 +90,7 @@ class Home extends Component<Iprops> {
 
   listHeaderComponent = () => {
     const { carousels, channels, loading } = this.props;
+    console.log(carousels + '轮播如数据');
     return (
       <View>
         <Carsousel data={carousels} />

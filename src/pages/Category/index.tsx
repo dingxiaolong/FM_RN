@@ -2,10 +2,17 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { connect, ConnectedProps } from 'react-redux'
 import { RootStates } from '../../model/index'
+import lodash from 'lodash'
 import { ICategory } from '../../model/category'
+import { viewPortWidth } from '../../utils'
+import { ScrollView } from 'react-native-gesture-handler'
 interface Istates {
   myCategorys: ICategory[]
 }
+
+const parentWidth = viewPortWidth - 15;
+const itemWidth = (parentWidth - 20) / 4.0;
+
 class Category extends Component {
   state = {
     myCategorys: [
@@ -176,7 +183,7 @@ class Category extends Component {
   }
   renderItem = (item: ICategory, index: number) => {
     return (
-      <View key={item.id}>
+      <View key={item.id} style={styles.item}>
         <Text>
           {item.name}
         </Text>
@@ -186,9 +193,12 @@ class Category extends Component {
   render() {
     const { categorys } = this.state;
     const { myCategorys } = this.state;
+    const categorysGroup = lodash.groupBy(
+      categorys, (item) => item.classify 
+    )
     console.log(myCategorys);
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.classyname}>
           我的分类
         </Text>
@@ -196,14 +206,24 @@ class Category extends Component {
           {myCategorys.map(this.renderItem)}
         </View>
         <View>
-          <Text>
-            所有分类
-        </Text>
-          <View style = {styles.classyView}>
-            {categorys.map(this.renderItem)}
-          </View>
+          {
+            Object.keys(categorysGroup).map(
+              (classflname) => {
+                return (
+                  <View key={classflname}>
+                    <Text style={styles.classyname}>
+                      {classflname}
+                    </Text>
+                    <View style={styles.classyView}>
+                      {categorysGroup[classflname].map(this.renderItem)}
+                    </View>
+                  </View>
+                )
+              }
+            )
+          }
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
@@ -215,18 +235,34 @@ const styles = StyleSheet.create(
   {
     container: {
       flex: 1,
-      backgroundColor: 'red',
+      // backgroundColor: 'red',
     },
     classyname: {
       fontSize: 16,
       marginTop: 14,
-      marginBottom: 8
+      marginBottom: 8,
+      marginLeft: 10,
     },
 
     classyView: {
       flexDirection: 'row',
       flexWrap: 'wrap',
+      marginLeft: 5,
+      marginTop: 5
+      // padding: 5,
 
+      // justifyContent: 'center',
+    },
+
+    item: {
+      width: itemWidth, 
+      backgroundColor: 'white', 
+      marginLeft: 5, 
+      height: 40, 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      marginBottom: 5, 
+      borderRadius: 4
     }
 
   }
