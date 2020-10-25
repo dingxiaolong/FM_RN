@@ -33,7 +33,15 @@ export default class Navigator extends Component {
                         headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
                         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                         gestureEnabled: true,
-                        // headerStatusBarHeight: StatusBar.currentHeight,
+                        // ...Platform.select(
+                        //     {
+                        //         android: {
+                        //             headerStatusBarHeight: StatusBar.currentHeight,
+                        //         }
+                        //     }
+                        // ),
+                        headerBackTitleVisible: false,
+                        headerTintColor: '#333333',
                         gestureDirection: 'horizontal',
                         headerStyle: {
                             // backgroundColor: 'red',

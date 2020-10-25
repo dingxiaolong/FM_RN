@@ -109,7 +109,7 @@ const homeModel: HomeModel = {
                     }//传递一个对象payload给同步方法赋值
                 }
             )
-            console.log('轮播图数据本地');
+            console.log('轮播图数据本地===');
             const { data } = yield call(axios.get, CAROUSEL_URL)
             console.log('轮播图数据');
             // yield put(//put作用和首页的dispatch功能类似======

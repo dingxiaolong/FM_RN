@@ -6,15 +6,65 @@ import lodash from 'lodash'
 import { ICategory } from '../../model/category'
 import { viewPortWidth } from '../../utils'
 import { ScrollView } from 'react-native-gesture-handler'
+import { RootStackNavigation, RootStackParamList } from '../../navigator'
+import { RouteProp, StackRouterOptions } from '@react-navigation/native'
+import HeadRightBtn from './HeadRightBtn'
+import TouchAble from '../../compoment/TouchAble'
+import storage from '../../config/storage'
 interface Istates {
   myCategorys: ICategory[]
 }
 
-const parentWidth = viewPortWidth - 15;
-const itemWidth = (parentWidth - 20) / 4.0;
+interface Ipros {
+  navigation: RootStackNavigation,
+  // route: StackRouterOptions,
+  // route : RouteProp<RootStackParamList,'Detail'>;
+}
 
-class Category extends Component {
+const parentWidth = viewPortWidth - 10;
+const itemWidth = (parentWidth - 40) / 4.0;
+
+class Category extends Component<Ipros> {
+  onsubmit = () => {
+    console.log(this.state.isEdit);
+
+    if (this.state.isEdit) {
+      storage.save(
+        {
+          key: 'myCategorys',
+          data: this.state.myCategorys
+        }
+      )
+    }
+
+    this.setState(
+      {
+        isEdit: !this.state.isEdit
+      }
+    )
+    this.props.navigation.setOptions(
+      {
+        headerRight: this.headRight
+      }
+    )
+  }
+
+  headRight = () => {
+    return (
+      <HeadRightBtn onpress={this.onsubmit} isEdit={this.state.isEdit}/>
+    )
+  }
+  constructor(props: Ipros) {
+    super(props)
+    props.navigation.setOptions(
+      {
+        headerRight: this.headRight
+      }
+    )
+  }
+
   state = {
+    isEdit: false,
     myCategorys: [
       {
         id: 'home',
@@ -181,18 +231,103 @@ class Category extends Component {
   };
   componentDidMount() {
   }
+  // componentWillUnmount() {
+  //   this.setState(
+  //     {
+  //       isEdit: false,
+  //     }
+  //   )
+  //   this.props.navigation.setOptions(
+  //     {
+  //       headerRight: this.headRight
+  //     }
+  //   )
+  // }
   renderItem = (item: ICategory, index: number) => {
+    const {isEdit} = this.state ;
+    const {selected} = item;
     return (
-      <View key={item.id} style={styles.item}>
-        <Text>
-          {item.name}
-        </Text>
-      </View>
+      <TouchAble onPress={() => this.onItemPress(item, index, true)}>
+        <View key={item.id} style={styles.item}>
+          <Text>
+            {item.name}
+          </Text>
+          {
+            isEdit && (
+              <View style={styles.icon}>
+                <Text style={{ flex: 1, textAlign: 'center', color: 'white', lineHeight: 16 }}>-</Text>
+              </View>
+            )
+          }
+        </View>
+      </TouchAble>
     )
   }
+
+  onLongPress = () => {
+    const {navigation} = this.props;
+    this.setState(
+      {
+        isEdit: true,
+      }
+    )
+    navigation.setOptions(
+      {
+        headerRight: this.headRight
+      }
+    )
+    console.log('bei dianji000');
+  }
+
+  onItemPress = (item: ICategory, index: number, selected: boolean) => {
+    console.log(item.name);
+    const {isEdit,myCategorys} = this.state;
+     if (isEdit) {
+
+      if (selected) {
+        this.setState(
+          {
+           myCategorys: myCategorys.filter(selItem => selItem.id != item.id)
+          }
+        )
+      }else {
+        this.setState(
+          {
+           myCategorys: myCategorys.concat(item)
+          }
+        )
+      }
+     }
+  }
+
+  renderUnSelectedItem = (item: ICategory, index: number) => {
+    const {isEdit} = this.state;
+    const {selected} = item;
+    return (
+      <TouchAble onLongPress={this.onLongPress} onPress={() => this.onItemPress(item, index,false)}>
+        <View key={item.id} style={styles.item}>
+          <Text>
+            {item.name}
+          </Text>
+          {
+            isEdit && (
+              <View style={styles.icon}>
+                <Text style={{ flex: 1, textAlign: 'center', color: 'white', lineHeight: 16 }}>+</Text>
+              </View>
+            )
+          }
+        </View>
+      </TouchAble>
+    )
+  }
+
   render() {
     const { categorys } = this.state;
-    const { myCategorys } = this.state;
+    let { myCategorys } = this.state;
+    // if (storage.getAllDataForKey('myCategorys') != undefined) {
+    //   myCategorys = storage.getAllDataForKey('myCategorys');
+    // }
+    
     const categorysGroup = lodash.groupBy(
       categorys, (item) => item.classify 
     )
@@ -215,7 +350,12 @@ class Category extends Component {
                       {classflname}
                     </Text>
                     <View style={styles.classyView}>
-                      {categorysGroup[classflname].map(this.renderItem)}
+                      {categorysGroup[classflname].map((item, index) => {
+                        if (myCategorys.find(selItem => item.id === selItem.id)) {
+                          return null;
+                        }
+                        return this.renderUnSelectedItem(item,index);
+                      })}
                     </View>
                   </View>
                 )
@@ -247,7 +387,7 @@ const styles = StyleSheet.create(
     classyView: {
       flexDirection: 'row',
       flexWrap: 'wrap',
-      marginLeft: 5,
+      marginLeft: 0,
       marginTop: 5
       // padding: 5,
 
@@ -257,12 +397,26 @@ const styles = StyleSheet.create(
     item: {
       width: itemWidth, 
       backgroundColor: 'white', 
-      marginLeft: 5, 
+      marginLeft: 10, 
       height: 40, 
       alignItems: 'center', 
       justifyContent: 'center', 
       marginBottom: 5, 
       borderRadius: 4
+    },
+
+    icon: {
+      position: 'absolute',
+      top: -8,
+      right: -6,
+      width: 16,
+      height: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#f86442',
+      borderRadius: 8,
+
+
     }
 
   }

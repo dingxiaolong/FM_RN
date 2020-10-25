@@ -9,6 +9,7 @@ export interface ICategory {
     id: string,
     name: string,
     classify?: string,
+    selected?: boolean
 }
 
 const CATEGORY_URL = '/mock/11/bear/carousel';
