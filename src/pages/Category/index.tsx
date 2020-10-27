@@ -54,14 +54,14 @@ class Category extends Component<Ipros> {
       <HeadRightBtn onpress={this.onsubmit} isEdit={this.state.isEdit}/>
     )
   }
-  constructor(props: Ipros) {
-    super(props)
-    props.navigation.setOptions(
-      {
-        headerRight: this.headRight
-      }
-    )
-  }
+  // constructor(props: Ipros) {
+  //   super(props)
+  //   props.navigation.setOptions(
+  //     {
+  //       headerRight: this.headRight
+  //     }
+  //   )
+  // }
 
   state = {
     isEdit: false,
@@ -230,6 +230,11 @@ class Category extends Component<Ipros> {
     }]
   };
   componentDidMount() {
+    this.props.navigation.setOptions(
+      {
+        headerRight: this.headRight
+      }
+    )
   }
   // componentWillUnmount() {
   //   this.setState(
@@ -244,7 +249,7 @@ class Category extends Component<Ipros> {
   //   )
   // }
   renderItem = (item: ICategory, index: number) => {
-    const {isEdit} = this.state ;
+    const {isEdit} = this.state;
     const {selected} = item;
     return (
       <TouchAble onPress={() => this.onItemPress(item, index, true)}>

@@ -5,13 +5,19 @@ import { CardStyleInterpolators, createStackNavigator, HeaderStyleInterpolators,
 import Category from '../pages/Category/index'
 
 import Detail from '../pages/Detail'
+import Album from '../pages/album/index'
 import BottomTabs from './BottomTabs'
 
 
 export type RootStackParamList = {
     BottomTabs: undefined,
     Category: undefined,
-    Detail: { id: number }
+    Detail: { id: number },
+    Album: {
+        id: string,
+        title: string,
+        image: string
+    }
 };
 
 export type RootStackNavigation = StackNavigationProp<RootStackParamList>;
@@ -55,6 +61,8 @@ export default class Navigator extends Component {
                     }}>
                     <Stack.Screen options={{ headerTitle: '首页' }} name="BottomTabs" component={BottomTabs}></Stack.Screen>
                     <Stack.Screen name="Detail" component={Detail}></Stack.Screen>
+                    <Stack.Screen name="Album" component={Album}></Stack.Screen>
+                    
                     <Stack.Screen options={{ headerTitle: '分类' }} name="Category" component={Category}></Stack.Screen>
                 </Stack.Navigator>
             </NavigationContainer>

@@ -11,12 +11,10 @@ interface Ipros {
 
 // create a component
 class HeadRightBtn extends Component<Ipros> {
-    // onpress = () => {
-    //     const {onpress} = this.props;
-    //     if (onpress == ) {
-            
-    //     }
-    // }
+    onSubmit = () => {
+        const {onpress} = this.props;
+        onpress();
+    }
     state = {
         isEdit : this.props.isEdit
     }
@@ -25,7 +23,7 @@ class HeadRightBtn extends Component<Ipros> {
         
         return (
             <HeaderButtons>
-                <Item title={this.props.isEdit ? '完成' : '编辑'} onPress={onpress}/>
+                <Item title={this.props.isEdit ? '完成' : '编辑'} onPress={this.onSubmit}/>
             </HeaderButtons>
         );
     }

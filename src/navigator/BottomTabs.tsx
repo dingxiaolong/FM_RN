@@ -68,21 +68,27 @@ export default class BottomTabs extends Component<IPros> {
     setNavBarHidden = () => {
         const { navigation, route } = this.props;
         const routename = route.state ? route.state.routes[route.state.index].name : '首页';
-        if (routename === 'HomeTabs') {
-            navigation.setOptions(
-                {
-                    headerTitle: '',
-                    headerTransparent: true
-                }
-            )
-        }else {
-            navigation.setOptions(
-                {
-                    headerTitle: getHeadTitle(routename),
-                    headerTransparent: false
-                }
-            )
-        }
+        // if (routename === 'HomeTabs') {
+        //     navigation.setOptions(
+        //         {
+        //             headerTitle: '',
+        //             headerTransparent: true
+        //         }
+        //     )
+        // }else {
+        //     navigation.setOptions(
+        //         {
+        //             headerTitle: getHeadTitle(routename),
+        //             headerTransparent: false
+        //         }
+        //     )
+        // }
+        navigation.setOptions(
+            {
+                headerTitle: getHeadTitle(routename),
+                headerTransparent: false
+            }
+        )
     }
 
     render() {

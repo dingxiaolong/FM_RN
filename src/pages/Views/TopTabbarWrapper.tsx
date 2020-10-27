@@ -28,7 +28,7 @@ const styles = StyleSheet.create(
     {
         container: {
             backgroundColor: '#fff',
-            paddingTop: getStatusBarHeight(),
+            paddingTop: 0,//getStatusBarHeight(),
             flexDirection: 'row',
             alignItems: 'center'
         },

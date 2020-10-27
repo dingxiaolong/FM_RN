@@ -42,7 +42,9 @@ class Home extends Component<Iprops> {
     navigation.push("Detail", { id: 100 });
   }
   onpressChanel = (data: IChannel) => {
-    Alert.alert(data.title);
+
+    const {navigation} = this.props;
+    navigation.navigate('Album',data);
   }
   handelAdd = () => {
     const { dispatch } = this.props;
@@ -94,7 +96,7 @@ class Home extends Component<Iprops> {
     return (
       <View>
         <Carsousel data={carousels} />
-        <Guess />
+        <Guess go2AlbumDetail={this.onpressChanel}/>
       </View>
     )
   }

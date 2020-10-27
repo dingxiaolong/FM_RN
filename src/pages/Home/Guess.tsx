@@ -1,10 +1,10 @@
-import React, { Component, version } from 'react'
 import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
-import { connect, ConnectedProps } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux';
+import React, { Component } from 'react'
 import IconFont from '../../assets/iconfont';
 import TouchAble from '../../compoment/TouchAble';
-import { RootStates } from '../../model';
+import { RootStates } from '../../model/index';
 import { IGuess } from '../../model/home';
 
 const mapStateToProps = ({ home }: RootStates) => {
@@ -13,16 +13,16 @@ const mapStateToProps = ({ home }: RootStates) => {
     })
 }
 const connector = connect(mapStateToProps);
-
-
-// const ModelState = ConnectedProps<typeof connector>;
 type ModelState = ConnectedProps<typeof connector>;
-class Guess extends Component<ModelState> {
 
+interface Ipros extends ModelState {
+    go2AlbumDetail: (item: IGuess) => void,
+}
+
+class Guess extends Component<Ipros> {
     componentDidMount() {
         this.fetch();
     }
-
     fetch = () => {
         const { dispatch } = this.props;
         dispatch(
@@ -32,13 +32,14 @@ class Guess extends Component<ModelState> {
         )
     }
 
-    onpress = () => {
-        Alert.alert('我被点击了');
+    onpress = (item: IGuess) => {
+        const {go2AlbumDetail} = this.props;
+        go2AlbumDetail(item);
     }
 
     renderItem = ({ item }: { item: IGuess }) => {
         return (
-            <TouchAble style={styles.item} onPress={this.onpress}>
+            <TouchAble style={styles.item} onPress={() => {this.onpress(item)}}>
                 <Image source={{ uri: item.image }} style={styles.image} />
                 <Text numberOfLines={2}>{item.title}</Text>
             </TouchAble>
